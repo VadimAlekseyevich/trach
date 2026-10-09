@@ -1,0 +1,13 @@
+# Аудиодатасет предоставляется преподавателем и не хранится в Git.
+dataset/
+test_audio/
+data.json
+*.wav
+
+# Локальное Python-окружение и служебные файлы.
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.idea/

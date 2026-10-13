@@ -1,0 +1,28 @@
+name: Lab 02 - Prolog expert system
+
+on:
+  push:
+    paths:
+      - "lab_02_tourism_expert_system/**"
+      - ".github/workflows/lab2-prolog.yml"
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lab_02_tourism_expert_system
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install SWI-Prolog
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y swi-prolog-nox
+      - name: Run Prolog unit tests
+        run: swipl -q -s tests.pl -g run_tests -t halt
+      - name: Check three sample dialogs
+        run: |
+          swipl -q -s main.pl -g main -t halt < examples/known_turkey.txt | grep -F 'Рекомендованное направление: Турция — Анталья'
+          swipl -q -s main.pl -g main -t halt < examples/known_japan.txt | grep -F 'Рекомендованное направление: Япония — Токио'
+          swipl -q -s main.pl -g main -t halt < examples/unknown.txt | grep -F 'Экспертная система не знает подходящего направления'
